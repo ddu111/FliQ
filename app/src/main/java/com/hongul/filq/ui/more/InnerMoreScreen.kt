@@ -1,3 +1,4 @@
+//MoreScreen
 package com.hongul.filq.ui.more
 
 import androidx.compose.foundation.layout.*
@@ -34,11 +35,11 @@ fun InnerMoreScreen(
                         style = MaterialTheme.typography.titleLarge,
                     )
                 },
-                navigationIcon = {
+                /*navigationIcon = {
                     IconButton(onClick = { /* 뒤로 가기 로직 */ }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "뒤로 가기")
                     }
-                },
+                },*/
                 actions = {}
             )
         }
