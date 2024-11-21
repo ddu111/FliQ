@@ -134,7 +134,7 @@ fun CalendarScreen() {
                 hostState = snackbarHostState,
                 modifier = Modifier
                     .align(Alignment.Center) // 화면 중앙 정렬
-                    .padding(top = 550.dp) // 위에서 약간 아래로 이동
+                    .padding(top = 630.dp) // 위에서 약간 아래로 이동
             )
 
             // 일정 추가 필드 (스케줄 수정 화면이 활성화되지 않은 경우에만 표시)
