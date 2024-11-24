@@ -2,17 +2,17 @@ package com.hongul.filq.ui.more
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.foundation.clickable
 import androidx.compose.ui.Alignment
+import com.hongul.filq.R // 리소스 추가
 
 // 이벤트/공지사항 화면
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,7 +26,11 @@ fun EventScreen(onBack: () -> Unit, onNoticeClick: () -> Unit) {
                 title = { Text("이벤트/공지사항") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "뒤로 가기")
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_back), // 사용자 정의 아이콘
+                            contentDescription = "뒤로 가기",
+                            tint = Color.Unspecified // 아이콘 원본 색상 유지
+                        )
                     }
                 }
             )
@@ -146,7 +150,11 @@ fun NoticeDetailScreen(onBack: () -> Unit) {
                 title = { Text("이벤트/공지사항") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "뒤로 가기")
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_back), // 사용자 정의 아이콘
+                            contentDescription = "뒤로 가기",
+                            tint = Color.Unspecified // 아이콘 원본 색상 유지
+                        )
                     }
                 }
             )
