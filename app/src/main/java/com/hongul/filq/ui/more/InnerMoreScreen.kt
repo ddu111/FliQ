@@ -1,15 +1,8 @@
-//MoreScreen
 package com.hongul.filq.ui.more
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.clickable
 import androidx.compose.material3.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,19 +21,12 @@ fun InnerMoreScreen(
 ) {
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        text = "더보기",
-                        style = MaterialTheme.typography.titleLarge,
-                    )
-                },
-                /*navigationIcon = {
-                    IconButton(onClick = { /* 뒤로 가기 로직 */ }) {
-                        Icon(Icons.Filled.ArrowBack, contentDescription = "뒤로 가기")
-                    }
-                },*/
-                actions = {}
+            TopAppBar(
+                title = { Text("더보기", fontSize = 18.sp) },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.White,
+                    titleContentColor = Color.Black
+                )
             )
         }
     ) { paddingValues ->
@@ -50,29 +36,19 @@ fun InnerMoreScreen(
                 .padding(horizontal = 16.dp)
                 .padding(paddingValues)
         ) {
-            // Each menu item in the More Screen
-            MoreMenuItem("마이페이지", Icons.Filled.Person, onClick = onNavigateToMyPage)
-            Divider(color = Color(0x1A585656), thickness = 1.dp, modifier = Modifier.fillMaxWidth())
-
-            MoreMenuItem("이벤트/공지사항", Icons.Filled.Notifications, onClick = onNavigateToEvent)
-            Divider(color = Color(0x1A585656), thickness = 1.dp, modifier = Modifier.fillMaxWidth())
-
-            MoreMenuItem("1:1 문의", Icons.Filled.Email, onClick = onNavigateToInquiry)
-            Divider(color = Color(0x1A585656), thickness = 1.dp, modifier = Modifier.fillMaxWidth())
-
-            MoreMenuItem("설정", Icons.Filled.Settings, onClick = onNavigateToSettings)
-            Divider(color = Color(0x1A585656), thickness = 1.dp, modifier = Modifier.fillMaxWidth())
+            MoreMenuItem("마이페이지", onClick = onNavigateToMyPage)
+            Divider(color = Color.Gray, thickness = 1.dp)
+            MoreMenuItem("이벤트/공지사항", onClick = onNavigateToEvent)
+            Divider(color = Color.Gray, thickness = 1.dp)
+            MoreMenuItem("1:1 문의", onClick = onNavigateToInquiry)
+            Divider(color = Color.Gray, thickness = 1.dp)
+            MoreMenuItem("설정", onClick = onNavigateToSettings)
         }
     }
 }
 
-// Composable function to render individual menu items
 @Composable
-fun MoreMenuItem(
-    text: String,
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    onClick: () -> Unit = {}
-) {
+fun MoreMenuItem(text: String, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -80,19 +56,9 @@ fun MoreMenuItem(
             .clickable(onClick = onClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = text,
-            tint = Color(0xFF585656),
-            modifier = Modifier.size(24.dp)
-        )
-        Spacer(modifier = Modifier.width(16.dp))
         Text(
             text = text,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Medium
-            ),
+            style = MaterialTheme.typography.bodyLarge.copy(fontSize = 18.sp, fontWeight = FontWeight.Medium),
             color = Color.Black
         )
     }
