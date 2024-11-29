@@ -16,10 +16,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -28,6 +31,7 @@ import androidx.compose.ui.unit.sp
 fun OrganizationInfoPage(onNext: () -> Unit) {
     val titlePadding = 121.dp
     val progress = 0.5f
+    val errorMessage = remember { mutableStateOf("") }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -62,9 +66,14 @@ fun OrganizationInfoPage(onNext: () -> Unit) {
 
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = "기업 또는 단체명",
-                modifier = Modifier.padding(start = 5.dp, bottom = 4.dp),
-                fontWeight = FontWeight.Bold
+                    text = buildAnnotatedString {
+                        append("기업 또는 단체명 ")
+                        withStyle(style = SpanStyle(color = Color.Red)) { // * 부분만 빨간색으로 설정
+                            append("*")
+                        }
+                    },
+            modifier = Modifier.padding(start = 5.dp, bottom = 4.dp),
+            fontWeight = FontWeight.Bold
             )
 
             // 기업 또는 단체명 입력 필드
@@ -89,7 +98,12 @@ fun OrganizationInfoPage(onNext: () -> Unit) {
 
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = "부서 / 직책",
+                text = buildAnnotatedString {
+                    append("부서 / 직책")
+                    withStyle(style = SpanStyle(color = Color.Red)) { // * 부분만 빨간색으로 설정
+                        append("*")
+                    }
+                },
                 modifier = Modifier.padding(start = 5.dp, bottom = 4.dp),
                 fontWeight = FontWeight.Bold
             )
@@ -116,7 +130,12 @@ fun OrganizationInfoPage(onNext: () -> Unit) {
 
         Column(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = "추가 직책",
+                text = buildAnnotatedString {
+                    append("추가 직책")
+                    withStyle(style = SpanStyle(color = Color.Red)) { // * 부분만 빨간색으로 설정
+                        append("*")
+                    }
+                },
                 modifier = Modifier.padding(start = 5.dp, bottom = 4.dp),
                 fontWeight = FontWeight.Bold
             )
@@ -139,6 +158,15 @@ fun OrganizationInfoPage(onNext: () -> Unit) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
+        // 에러 메시지 표시
+        if (errorMessage.value.isNotEmpty()) {
+            Text(
+                text = errorMessage.value,
+                color = Color.Red,
+                fontSize = 14.sp,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+        }
 
         // 다음 버튼
         Box(
@@ -148,7 +176,23 @@ fun OrganizationInfoPage(onNext: () -> Unit) {
             contentAlignment = Alignment.BottomCenter // 버튼을 화면 하단에 정렬
         ) {
             Button(
-                onClick = onNext,
+                onClick = {
+                    when {
+                        organizationName.value.isBlank() -> {
+                            errorMessage.value = "기업 또는 단체명을 입력하세요."
+                        }
+                        departmentPosition.value.isBlank() -> {
+                            errorMessage.value = "부서 / 직책을 입력하세요."
+                        }
+                        additionalPosition.value.isBlank() -> {
+                            errorMessage.value = "추가 직책을 입력하세요."
+                        }
+                        else -> {
+                            errorMessage.value = ""
+                            onNext() // 모든 필드가 유효하면 다음으로 이동
+                        }
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),

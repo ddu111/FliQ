@@ -1,15 +1,18 @@
 package com.hongul.filq.ui.share
 
 import android.content.Context
+import android.graphics.Bitmap
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.google.android.gms.nearby.connection.Payload
+import com.google.zxing.BarcodeFormat
 import com.hongul.filq.api.NearbyApi.sendPayload
 import com.hongul.filq.api.NearbyApi.startAdvertising
 import com.hongul.filq.api.NearbyApi.stopAdvertising
 import com.hongul.filq.api.hostConnectionCallback
 import com.hongul.filq.data.BusinessCardRepository
 import com.hongul.filq.model.toModel
+import com.journeyapps.barcodescanner.BarcodeEncoder
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
@@ -29,6 +32,8 @@ class CardShareViewModel(
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = null
         )
+
+    val qrCode: Bitmap = generateQR()
 
     fun startAdvertising(
         context: Context,
@@ -60,5 +65,10 @@ class CardShareViewModel(
         viewModelScope.launch {
             stopAdvertising(context)
         }
+    }
+
+    private fun generateQR(): Bitmap {
+        val encoder = BarcodeEncoder()
+        return encoder.encodeBitmap("https://www.naver.com", BarcodeFormat.QR_CODE, 400, 400)
     }
 }

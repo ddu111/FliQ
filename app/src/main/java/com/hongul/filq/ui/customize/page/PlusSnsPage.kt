@@ -26,8 +26,8 @@ import com.hongul.filq.R
 @Composable
 fun PlusSnsPage(
     onBack: () -> Unit,
-    navController: NavHostController
-    ) {
+    onSelectSNS: (String) -> Unit
+) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -82,9 +82,7 @@ fun PlusSnsPage(
                                     .clip(CircleShape) // 원 모양으로 클립
                                     .background(Color.White) // 배경을 흰색으로 설정
                                     .border(1.dp, Color.Gray, CircleShape) // 회색 테두리 설정
-                                    .clickable {
-                                        navController.navigate("url_page/${snsList[index]}") // SNS 이름 전달
-                                    }
+                                    .clickable { onSelectSNS(snsList[index]) }
                             ) {
                                 // 이미지 리소스를 불러와서 원 안에 맞게 표시
                                 Image(

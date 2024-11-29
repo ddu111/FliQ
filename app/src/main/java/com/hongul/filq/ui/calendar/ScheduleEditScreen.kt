@@ -2,6 +2,7 @@ package com.hongul.filq.ui.calendar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -13,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.AlertDialog
@@ -41,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -131,7 +134,8 @@ fun ScheduleEditScreen(
                                 selectedParticipants.add(contact)
                             }
                         }
-                        .padding(vertical = 8.dp)
+                        .padding(vertical = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically // 요소 수직 정렬
                 ) {
                     Checkbox(
                         checked = selectedParticipants.contains(contact),
@@ -148,9 +152,25 @@ fun ScheduleEditScreen(
                         )
                     )
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text(text = "${contact.name} (${contact.email})")
+                    Column(
+                        modifier = Modifier.weight(1f), // 이름과 메일을 수평으로 확장
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        Text(
+                            text = contact.name,
+                            fontSize = 12.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.Black
+                        )
+                        Text(
+                            text = contact.email,
+                            fontSize = 12.sp,
+                            color = Color.Gray
+                        )
+                    }
                 }
             }
+
 
             Spacer(modifier = Modifier.height(16.dp))
             Button(
@@ -173,37 +193,71 @@ fun ScheduleEditScreen(
     if (showDeleteConfirmation) {
         AlertDialog(
             onDismissRequest = { showDeleteConfirmation = false },
-            title = { Text("일정을 삭제하시겠습니까?") },
-            text = { Text("확인을 누르면 일정이 완전히 삭제됩니다.") },
+            title = {
+                Text(
+                    "일정을 삭제하시겠습니까?",
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center, // 제목 중앙 정렬
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            text = {
+                Text(
+                    "확인을 누르면 일정이 완전히 삭제됩니다.",
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center, // 본문 중앙 정렬
+                    modifier = Modifier.fillMaxWidth(),
+                    color = Color.Gray
+                )
+            },
+            shape = RoundedCornerShape(12.dp),
             confirmButton = {
-                TextButton(
-                    onClick = {
-                        onDelete()
-                        showDeleteConfirmation = false
-                    },
-                    colors = ButtonDefaults.textButtonColors(
-                        containerColor = Color.Red, // 빨간색 확인 버튼
-                        contentColor = Color.White
-                    ),
-                    modifier = Modifier.height(40.dp)
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween // 버튼 수평 정렬
                 ) {
-                    Text("확인")
+                    // 취소 버튼
+                    Button(
+                        onClick = { showDeleteConfirmation = false },
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.LightGray,
+                            contentColor = Color.Black
+                        ),
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(45.dp)
+                    ) {
+                        Text("취소")
+                    }
+
+                    Spacer(modifier = Modifier.width(16.dp))
+
+                    // 삭제 버튼
+                    Button(
+                        onClick = {
+                            onDelete()
+                            showDeleteConfirmation = false
+                        },
+                        shape = RoundedCornerShape(12.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF1B5E20), // 녹색 버튼
+                            contentColor = Color.White
+                        ),
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(45.dp)
+                    ) {
+                        Text("삭제")
+                    }
                 }
             },
-            dismissButton = {
-                TextButton(
-                    onClick = { showDeleteConfirmation = false },
-                    colors = ButtonDefaults.textButtonColors(
-                        containerColor = Color.Transparent,
-                        contentColor = Color.Black
-                    )
-                ) {
-                    Text("취소")
-                }
-            },
-            containerColor = Color.White
+            dismissButton = {}
         )
     }
+
 
     // 색상 선택 팝업
     if (showColorPickerDialog) {

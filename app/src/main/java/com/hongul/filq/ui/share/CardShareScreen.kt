@@ -30,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
@@ -50,7 +51,6 @@ data class CardShareRoute(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CardShareScreen(
-    navigator: NavHostController,
     viewModel: CardShareViewModel = viewModel(
         factory = CardShareViewModelProvider.Factory,
     )
@@ -67,7 +67,6 @@ fun CardShareScreen(
                         Toast.makeText(context, "명함을 전달했습니다!", Toast.LENGTH_SHORT).show()
                     else
                         Toast.makeText(context, "명함 전달에 실패했습니다.", Toast.LENGTH_SHORT).show()
-                    navigator.popBackStack()
                 }
             )
         }
@@ -158,7 +157,7 @@ fun CardShareScreen(
 
                             AnimatedVisibility(showQR) {
                                 Image(
-                                    qrImage,
+                                    viewModel.qrCode.asImageBitmap(),
                                     contentDescription = "QR 코드",
                                     modifier = Modifier.fillMaxWidth(),
                                     contentScale = ContentScale.FillWidth

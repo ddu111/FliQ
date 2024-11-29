@@ -15,10 +15,11 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun LetterPositionPage(
     onNext: () -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onAlignmentSelected: (Alignment) -> Unit
 ) {
     var textColor by remember { mutableStateOf(Color.Black) } // 글자 색상 관리
-    val selectedBoxes = remember { mutableStateOf(listOf(false, false, false)) }
+    var selectedIndex by remember { mutableStateOf(-1) }
 
     Column(
         modifier = Modifier
@@ -45,11 +46,15 @@ fun LetterPositionPage(
                         1 -> PaddingValues(horizontal = 16.dp) // 양쪽 여백 추가
                         else -> PaddingValues(end = 16.dp, bottom = 8.dp) // 오른쪽 하단 여백 추가
                     },
-                    isChecked = selectedBoxes.value[index],
-                    onCheckedChange = { checked ->
-                        selectedBoxes.value = selectedBoxes.value.toMutableList().apply {
-                            this[index] = checked
-                        }
+                    isChecked = selectedIndex == index,
+                    onCheckedChange = {  selectedIndex = if (it) index else -1 // 체크 시 해당 인덱스를 저장, 해제 시 초기화
+                        onAlignmentSelected(
+                            when (index) { // 선택된 Index에 따라 Alignment 전달
+                                0 -> Alignment.BottomStart
+                                1 -> Alignment.Center
+                                else -> Alignment.BottomEnd
+                            }
+                        )
                     }
                 )
                 Spacer(modifier = Modifier.height(5.dp))
@@ -58,7 +63,7 @@ fun LetterPositionPage(
 
         Button(
             onClick = {
-                if (selectedBoxes.value.contains(true)) {
+                if (selectedIndex != -1) {
                     onNext() // 선택한 체크박스가 있을 때만 다음 페이지로 이동
                 }
             },

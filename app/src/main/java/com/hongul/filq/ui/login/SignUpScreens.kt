@@ -13,19 +13,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.background
-import androidx.navigation.NavHostController
 import com.hongul.filq.R
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.vectorResource
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.res.painterResource
-
+import androidx.compose.foundation.shape.RoundedCornerShape
 
 
 // 회원가입 단계 설정
@@ -53,7 +45,7 @@ fun PhoneInputScreen(onBackPress: () -> Unit = {}, onNext: () -> Unit = {}) {
                 navigationIcon = {
                     IconButton(onClick = onBackPress) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            painter = painterResource(id = R.drawable.arrow_back_ios), // 커스텀 벡터 리소스 사용
                             contentDescription = "뒤로 가기",
                             tint = Color.Black
                         )
@@ -131,7 +123,8 @@ fun PhoneInputScreen(onBackPress: () -> Unit = {}, onNext: () -> Unit = {}) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 15.dp)
-                    .height(48.dp)
+                    .height(48.dp) ,
+                shape = RoundedCornerShape(5.dp)
             ) {
                 Text(
                     text = "다음",
@@ -165,7 +158,7 @@ fun EmailInputScreen(onBackPress: () -> Unit = {}, onNext: () -> Unit = {}) {
                 navigationIcon = {
                     IconButton(onClick = onBackPress) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            painter = painterResource(id = R.drawable.arrow_back_ios), // 커스텀 벡터 리소스 사용
                             contentDescription = "뒤로 가기",
                             tint = Color.Black
                         )
@@ -243,7 +236,8 @@ fun EmailInputScreen(onBackPress: () -> Unit = {}, onNext: () -> Unit = {}) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 15.dp)
-                    .height(48.dp)
+                    .height(48.dp) ,
+                shape = RoundedCornerShape(5.dp)
             ) {
                 Text(
                     text = "다음",
@@ -276,7 +270,7 @@ fun NameInputScreen(onBackPress: () -> Unit = {}, onNext: () -> Unit = {}) {
                 navigationIcon = {
                     IconButton(onClick = onBackPress) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            painter = painterResource(id = R.drawable.arrow_back_ios), // 커스텀 벡터 리소스 사용
                             contentDescription = "뒤로 가기",
                             tint = Color.Black
                         )
@@ -354,7 +348,8 @@ fun NameInputScreen(onBackPress: () -> Unit = {}, onNext: () -> Unit = {}) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 15.dp)
-                    .height(48.dp)
+                    .height(48.dp),
+                shape = RoundedCornerShape(5.dp)
             ) {
                 Text(
                     text = "다음",
@@ -391,7 +386,7 @@ fun PasswordInputScreen(onBackPress: () -> Unit = {}, onNext: () -> Unit = {}) {
                 navigationIcon = {
                     IconButton(onClick = onBackPress) {
                         Icon(
-                            imageVector = Icons.Default.ArrowBack,
+                            painter = painterResource(id = R.drawable.arrow_back_ios), // 커스텀 벡터 리소스 사용
                             contentDescription = "뒤로 가기",
                             tint = Color.Black
                         )
@@ -531,7 +526,8 @@ fun PasswordInputScreen(onBackPress: () -> Unit = {}, onNext: () -> Unit = {}) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 15.dp)
-                    .height(48.dp)
+                    .height(48.dp),
+                shape = RoundedCornerShape(5.dp)
             ) {
                 Text(
                     text = "다음",
@@ -624,6 +620,7 @@ fun SignUpCompleteScreen(onNext: () -> Unit = {}) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(50.dp),
+            shape = RoundedCornerShape(5.dp),
             colors = ButtonDefaults.buttonColors(containerColor = customGreen)
         ) {
             Text(

@@ -110,6 +110,12 @@ fun PreviewBusinessCardTemplatePage() {
         R.drawable.bc26,
         R.drawable.bc27,
         R.drawable.bc28,
+        R.drawable.bc29,
+        R.drawable.bc30,
+        R.drawable.bc31,
+        R.drawable.bc32,
+        R.drawable.bc33,
+        R.drawable.bc34,
     )
 
     BusinessCardTemplatePage(

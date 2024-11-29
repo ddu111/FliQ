@@ -20,6 +20,7 @@ import androidx.navigation.toRoute
 import com.hongul.filq.R
 import com.hongul.filq.ui.CardShareViewModelProvider
 import com.hongul.filq.ui.calendar.CalendarScreen
+import com.hongul.filq.ui.contact.ContactScreen
 import com.hongul.filq.ui.customize.BusinessCardGenerateScreen
 //import com.hongul.filq.ui.customize.page.FaceBookURLPage
 //import com.hongul.filq.ui.customize.page.InstaGramURLPage
@@ -43,6 +44,7 @@ import com.hongul.filq.ui.more.MoreScreen
 sealed class NavItem(val route: String, val title: String, @DrawableRes val icon: Int) {
     data object Home : NavItem("home", "내 명함", R.drawable.ic_nav_home)
     data object Contact : NavItem("contact", "연락처", R.drawable.ic_nav_contact)
+    data object Search : NavItem("search", "명함 찾기", R.drawable.ic_nav_search)
     data object Calendar : NavItem("calendar", "캘린더", R.drawable.ic_nav_calendar)
     data object More : NavItem("more", "더보기", R.drawable.ic_nav_more)
 }
@@ -63,7 +65,11 @@ fun NavigationGraph(navController: NavHostController) {
             }
             composable(NavItem.Contact.route) {
                 showNavigationBar = true
-                PlaceHolder(it.destination.route!!)
+                ContactScreen()
+            }
+            composable(NavItem.Search.route) {
+                showNavigationBar = true
+                PlaceHolder("search")
             }
             composable(NavItem.Calendar.route) {
                 showNavigationBar = true
@@ -84,7 +90,7 @@ fun NavigationGraph(navController: NavHostController) {
                 val viewModel: CardShareViewModel = viewModel(
                     factory = CardShareViewModelProvider.factory(route.cardId),
                 )
-                CardShareScreen(navController, viewModel)
+                CardShareScreen(viewModel)
             }
             composable("generate") {
                 showNavigationBar = false

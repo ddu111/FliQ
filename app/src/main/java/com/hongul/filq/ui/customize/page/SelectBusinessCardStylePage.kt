@@ -20,7 +20,7 @@ import com.hongul.filq.R
 
 
 @Composable
-fun SelectBusinessCardStylePage(onNavigateToBusinessCard: () -> Unit, onNavigateToPersonalCard: () -> Unit) {
+fun SelectBusinessCardStylePage(onNavigateToBusinessCard: () -> Unit, onNavigateToPersonalCard: () -> Unit,  onBack: () -> Unit) {
     val progress = 1.0f
     Column(
         modifier = Modifier

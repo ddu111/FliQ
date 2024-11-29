@@ -47,21 +47,32 @@ fun saveImageToGallery(context: Context, bitmap: Bitmap) {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
                 outputStream.flush()
             }
-
-            // MediaScannerConnection 호출
             MediaScannerConnection.scanFile(
                 context,
                 arrayOf(it.toString()),
-                arrayOf("image/jpeg")
-            ) { path, scannedUri ->
-                println("Scanned file path: $path")
-                println("Scanned URI: $scannedUri")
-            }
+                arrayOf("image/jpeg"),
+                null
+            )
         }
     } catch (e: IOException) {
         e.printStackTrace()
     }
 }
+
+//            // MediaScannerConnection 호출
+//            MediaScannerConnection.scanFile(
+//                context,
+//                arrayOf(it.toString()),
+//                arrayOf("image/jpeg")
+//            ) { path, scannedUri ->
+//                println("Scanned file path: $path")
+//                println("Scanned URI: $scannedUri")
+//            }
+//        }
+//    } catch (e: IOException) {
+//        e.printStackTrace()
+//    }
+//}
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -79,7 +90,7 @@ fun RequestGalleryPermission(onPermissionGranted: () -> Unit) {
 
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
-fun SelectPhotoPage(onNext: () -> Unit) {
+fun SelectPhotoPage(onNext: () -> Unit, onImageSelected: (Bitmap) -> Unit) {
     var selectedImage by remember { mutableStateOf<Bitmap?>(null) }
     val context = LocalContext.current
 
@@ -104,6 +115,7 @@ fun SelectPhotoPage(onNext: () -> Unit) {
                 try {
                     val bitmap = MediaStore.Images.Media.getBitmap(context.contentResolver, uri)
                     selectedImage = bitmap
+                    onImageSelected(bitmap)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }
@@ -231,7 +243,7 @@ fun SelectPhotoPage(onNext: () -> Unit) {
                     onClick = {
                         // Save image to gallery
                         selectedImage?.let { saveImageToGallery(context, it) }
-                        onNext() // 이동 콜백 호출
+                        onNext() // 다음 단계로 이동
                     },
                     modifier = Modifier
                         .weight(1f)

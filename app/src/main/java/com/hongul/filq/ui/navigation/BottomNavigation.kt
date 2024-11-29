@@ -56,6 +56,7 @@ fun BottomNavigation(navController: NavHostController) {
         val navItemList = listOf(
             NavItem.Home,
             NavItem.Contact,
+            NavItem.Search,
             NavItem.Calendar,
             NavItem.More
         )

@@ -47,18 +47,14 @@ fun CalendarScreen() {
 
     Scaffold(
         topBar = {
-            SmallTopAppBar(
-                title = { Text("캘린더", fontSize = 18.sp) },
-                navigationIcon = {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.KeyboardArrowLeft,
-                        contentDescription = null
+            TopAppBar(
+                title = {
+                    Text(
+                        text = "캘린더",
+                        fontSize = 20.sp,
+                        modifier = Modifier.padding(horizontal = 10.dp)
                     )
-                },
-                colors = TopAppBarDefaults.smallTopAppBarColors(
-                    containerColor = Color.White,
-                    titleContentColor = Color.Black
-                )
+                }
             )
         }
     ) { paddingValues ->
@@ -133,8 +129,8 @@ fun CalendarScreen() {
             SnackbarHost(
                 hostState = snackbarHostState,
                 modifier = Modifier
-                    .align(Alignment.Center) // 화면 중앙 정렬
-                    .padding(top = 630.dp) // 위에서 약간 아래로 이동
+                    .align(Alignment.BottomCenter) // 화면 하단 중앙 정렬
+                    .padding(bottom = 65.dp) // 하단 여백 추가
             )
 
             // 일정 추가 필드 (스케줄 수정 화면이 활성화되지 않은 경우에만 표시)
@@ -280,8 +276,9 @@ fun CalendarBody(
                                     else -> FontWeight.Normal
                                 },
                                 color = when {
-                                    isToday -> Color(0xFF1B5E20)
-                                    else -> Color.Black
+                                    isSelected -> Color.White // 선택된 날짜는 흰색
+                                    isToday -> Color(0xFF1B5E20) // 오늘 날짜는 녹색
+                                    else -> Color.Black // 기본 검정색
                                 }
                             )
                         }
@@ -346,18 +343,18 @@ fun ScheduleList(
                                 .fillMaxWidth()
                                 .clickable { onScheduleClick(schedule) } // 일정 클릭 시 편집 화면으로 이동
                                 .padding(vertical = 8.dp),
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically // 요소를 수직 중앙 정렬
                         ) {
                             // 일정 색상 원
                             Box(
                                 modifier = Modifier
                                     .size(16.dp)
-                                    .background(schedule.color, shape = CircleShape)
+                                    .background(schedule.color, shape = CircleShape) // 색상 원
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Column(
                                 modifier = Modifier.weight(1f),
-                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                                verticalArrangement = Arrangement.spacedBy(4.dp) // 텍스트 간격 조정
                             ) {
                                 Text(
                                     text = schedule.title,
